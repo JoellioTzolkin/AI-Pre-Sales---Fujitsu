@@ -1,0 +1,157 @@
+{
+  "roadmap_name": "SAP Activate for SAP Cloud ERP",
+  "estimation_mode": "duration_based",
+  "hours_per_day": 8,
+  "project_context": {
+    "customer": "ACME",
+    "industry": "Discrete Manufacturing",
+    "countries": 2,
+    "integrations": 3,
+    "data_migration_objects": 12,
+    "extensions": 2,
+    "notes": "POC example only."
+  },
+  "phases": [
+    {
+      "phase_number": "1",
+      "phase_name": "Prepare",
+      "tasks": [
+        {
+          "sequence": "1.1",
+          "title": "Project Initiation",
+          "leading_workstream": "Project Management",
+          "roles": [
+            "Project Manager"
+          ],
+          "accelerators": [
+            "PM.001"
+          ],
+          "estimated_hours_total": 40,
+          "estimated_hours_by_role": {
+            "Project Manager": 40
+          }
+        }
+      ],
+      "totals_by_role_hours": {
+        "Project Manager": 40
+      },
+      "total_hours": 40
+    },
+    {
+      "phase_number": "2",
+      "phase_name": "Explore",
+      "tasks": [
+        {
+          "sequence": "2.1",
+          "title": "Fit-to-Standard Workshops",
+          "leading_workstream": "Application Design",
+          "roles": [
+            "Functional Consultant",
+            "Customer Key User"
+          ],
+          "accelerators": [
+            "FTS.001",
+            "FTS.002"
+          ],
+          "estimated_hours_total": 120,
+          "estimated_hours_by_role": {
+            "Functional Consultant": 60,
+            "Customer Key User": 60
+          }
+        }
+      ],
+      "totals_by_role_hours": {
+        "Functional Consultant": 60,
+        "Customer Key User": 60
+      },
+      "total_hours": 120
+    },
+    {
+      "phase_number": "3",
+      "phase_name": "Realize",
+      "tasks": [
+        {
+          "sequence": "3.1",
+          "title": "Configuration & Build",
+          "leading_workstream": "Configuration",
+          "roles": [
+            "Functional Consultant",
+            "Integration Consultant"
+          ],
+          "accelerators": [
+            "CFG.001"
+          ],
+          "estimated_hours_total": 200,
+          "estimated_hours_by_role": {
+            "Functional Consultant": 100,
+            "Integration Consultant": 100
+          }
+        }
+      ],
+      "totals_by_role_hours": {
+        "Functional Consultant": 100,
+        "Integration Consultant": 100
+      },
+      "total_hours": 200
+    }
+  ],
+  "deliverables": [
+    {
+      "accelerator_id": "PM.001",
+      "title": "Project Charter Template",
+      "source_url": "TBD",
+      "accelerator_type": "File",
+      "access_level": "Public",
+      "phases": [
+        "Prepare"
+      ],
+      "estimated_hours": 40
+    },
+    {
+      "accelerator_id": "FTS.001",
+      "title": "Fit-to-Standard Workshop Template",
+      "source_url": "TBD",
+      "accelerator_type": "File",
+      "access_level": "Public",
+      "phases": [
+        "Explore"
+      ],
+      "estimated_hours": 60
+    },
+    {
+      "accelerator_id": "FTS.002",
+      "title": "Delta Requirements Log",
+      "source_url": "TBD",
+      "accelerator_type": "File",
+      "access_level": "Public",
+      "phases": [
+        "Explore"
+      ],
+      "estimated_hours": 60
+    },
+    {
+      "accelerator_id": "CFG.001",
+      "title": "Configuration Tracker",
+      "source_url": "TBD",
+      "accelerator_type": "File",
+      "access_level": "Public",
+      "phases": [
+        "Realize"
+      ],
+      "estimated_hours": 200
+    }
+  ],
+  "effort_matrix_hours": {
+    "Prepare": {
+      "Project Manager": 40
+    },
+    "Explore": {
+      "Functional Consultant": 60,
+      "Customer Key User": 60
+    },
+    "Realize": {
+      "Functional Consultant": 100,
+      "Integration Consultant": 100
+    }
+  }
+}
