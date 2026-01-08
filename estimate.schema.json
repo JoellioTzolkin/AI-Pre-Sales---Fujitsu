@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/sap-activate/estimate.schema.json",
+  "title": "SAP Activate Effort Estimate",
+  "type": "object",
+  "required": [
+    "roadmap_name",
+    "estimation_mode",
+    "hours_per_day",
+    "project_context",
+    "phases",
+    "deliverables",
+    "effort_matrix_hours"
+  ],
+  "properties": {
+    "roadmap_name": {
+      "type": "string"
+    },
+    "estimation_mode": {
+      "type": "string",
+      "enum": [
+        "msproject",
+        "duration_based"
+      ]
+    },
+    "hours_per_day": {
+      "type": "number",
+      "minimum": 1
+    },
+    "project_context": {
+      "type": "object",
+      "required": [
+        "customer",
+        "industry",
+        "countries",
+        "integrations",
+        "data_migration_objects",
+        "extensions",
+        "notes"
+      ],
+      "properties": {
+        "customer": {
+          "type": "string"
+        },
+        "industry": {
+          "type": "string"
+        },
+        "countries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "integrations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "data_migration_objects": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "extensions": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "phase_number",
+          "phase_name",
+          "tasks",
+          "totals_by_role_hours",
+          "total_hours"
+        ],
+        "properties": {
+          "phase_number": {
+            "type": "string"
+          },
+          "phase_name": {
+            "type": "string"
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "sequence",
+                "title",
+                "leading_workstream",
+                "roles",
+                "accelerators",
+                "estimated_hours_total",
+                "estimated_hours_by_role"
+              ],
+              "properties": {
+                "sequence": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "leading_workstream": {
+                  "type": "string"
+                },
+                "roles": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "accelerators": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "estimated_hours_total": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "estimated_hours_by_role": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          },
+          "totals_by_role_hours": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "total_hours": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "deliverables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "accelerator_id",
+          "title",
+          "source_url",
+          "accelerator_type",
+          "access_level",
+          "phases",
+          "estimated_hours"
+        ],
+        "properties": {
+          "accelerator_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": "string"
+          },
+          "accelerator_type": {
+            "type": "string"
+          },
+          "access_level": {
+            "type": "string"
+          },
+          "phases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "estimated_hours": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "effort_matrix_hours": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}
