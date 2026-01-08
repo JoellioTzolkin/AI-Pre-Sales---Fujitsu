@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SAP Activate Effort Estimator – POC</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial,sans-serif;margin:24px;max-width:980px}
+    .card{border:1px solid #ddd;border-radius:10px;padding:16px;margin:12px 0}
+    code,pre{background:#f6f8fa;padding:2px 6px;border-radius:6px}
+    pre{padding:12px;overflow:auto}
+    table{border-collapse:collapse;width:100%}
+    th,td{border:1px solid #ddd;padding:8px;font-size:14px;vertical-align:top}
+    th{background:#f2f2f2;text-align:left}
+  </style>
+</head>
+<body>
+  <h1>SAP Activate Effort Estimator (POC)</h1>
+  <p>Esta página é um “front” leve para validar e pré-visualizar o <code>estimate.json</code> gerado pelo Claude.</p>
+  <div class="card">
+    <h2>1) Upload do estimate.json</h2>
+    <input type="file" id="file" accept="application/json"/>
+    <p id="status"></p>
+  </div>
+
+  <div class="card">
+    <h2>2) Como gerar o Excel</h2>
+    <p>Para gerar o Excel com formatação consistente, eu uso o gerador Python:</p>
+    <pre><code>python generator/generate_excel.py --input samples/example_estimate.json --output out.xlsx --start-date 2026-01-15</code></pre>
+    <p>Se vocês quiserem “Excel direto no browser”, dá para evoluir este HTML com SheetJS (mais trabalho para manter formatação avançada).</p>
+  </div>
+
+  <div class="card">
+    <h2>Pré-visualização</h2>
+    <div id="preview"></div>
+  </div>
+
+<script>
+const $ = (id)=>document.getElementById(id);
+$("file").addEventListener("change", async (e)=>{
+  const f = e.target.files?.[0];
+  if(!f) return;
+  try{
+    const txt = await f.text();
+    const data = JSON.parse(txt);
+    $("status").textContent = "OK: JSON carregado ("+ (data.roadmap_name || "sem roadmap_name") +")";
+    renderPreview(data);
+  }catch(err){
+    $("status").textContent = "Erro ao ler JSON: " + err;
+  }
+});
+
+function renderPreview(data){
+  const phases = data.phases || [];
+  const deliverables = data.deliverables || [];
+  let html = "";
+  html += "<p><b>Roadmap:</b> "+escapeHtml(data.roadmap_name||"")+"</p>";
+  html += "<p><b>Modo:</b> "+escapeHtml(data.estimation_mode||"")+"</p>";
+
+  html += "<h3>Fases ("+phases.length+")</h3>";
+  html += "<table><thead><tr><th>Fase</th><th>Total horas</th><th>#Tarefas</th></tr></thead><tbody>";
+  for(const p of phases){
+    html += "<tr><td>"+escapeHtml(p.phase_name||p.phase_number||"")+"</td><td>"+(p.total_hours||0)+"</td><td>"+((p.tasks||[]).length)+"</td></tr>";
+  }
+  html += "</tbody></table>";
+
+  html += "<h3>Top 10 entregáveis por esforço</h3>";
+  const top = [...deliverables].sort((a,b)=>(b.estimated_hours||0)-(a.estimated_hours||0)).slice(0,10);
+  html += "<table><thead><tr><th>ID</th><th>Título</th><th>Horas</th><th>Fases</th></tr></thead><tbody>";
+  for(const d of top){
+    html += "<tr><td>"+escapeHtml(d.accelerator_id||"")+"</td><td>"+escapeHtml(d.title||"")+"</td><td>"+(d.estimated_hours||0)+"</td><td>"+escapeHtml((d.phases||[]).join(", "))+"</td></tr>";
+  }
+  html += "</tbody></table>";
+
+  $("preview").innerHTML = html;
+}
+
+function escapeHtml(s){
+  return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+}
+</script>
+</body>
+</html>
